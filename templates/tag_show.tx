@@ -14,7 +14,7 @@
 
 : include "menu.tx"
 
-<h2>「<: $tag :>」タグの一覧</h2>
+<div style="font-size:1.5em;margin:3%;">みんなが「<: $tag :>」タグをつけた動画</div>
 
 : if $data.size() == 0 {
 
@@ -51,7 +51,7 @@
                     <a href="/mytag/<: $tag :>"><: $tag :></a></span>
 :           }
                 <span style="font-size: 0.8em;">
-                    [<a href="/delete/<: $vid[0] :>">タグ編集</a>]</span>
+                    [<a href="/delete/<: $item.vid :>">タグ編集</a>]</span>
 :       }
 
     </div>
