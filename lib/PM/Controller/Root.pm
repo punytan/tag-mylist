@@ -6,37 +6,40 @@ use parent 'PM::Controller';
 use PM::Model::Root;
 use PM::Model::Session;
 
-my $view = PM::View->new;
+my $view  = PM::View->new;
+my $model = PM::Model::Root->new;
 
 sub get {
     my $self = shift;
     my $env  = shift;
 
-    if (PM::Model::Session->is_login($env)) {
-
-        my @rows = PM::Model::Root->fetch_random_vid;
-
-        my %vinfo;
-        for my $row (@rows) {
-            my $value = PM::Model::Root->fetch_video_info($row);
-            $vinfo{$row} = $value;
-            if ($row =~ /[s|n]m(\d+)/) {
-                $vinfo{$row}->{thumbid} = $1;
-            } else {
-                #$vinfo{$row}{thumbid} = $row;
-            }
-        }
-
-        my $body = $view->render_with_encode('root_login.tx', {
-            session => $env->{'psgix.session'}, random => \%vinfo});
-
-        return [200, ['Content-Type' => 'text/html'], [$body]];
-        
-    } else {
-        my $body = $view->render_with_encode('root_not_login.tx', {});
+    unless (PM::Model::Session->is_login($env)) {
+        my $body = $view->render_with_encode(
+            'root_not_login.tx', {});
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
     }
+
+    my @vids = $model->fetch_random_vid;
+
+    my @data;
+    for my $vid (@vids) {
+
+        my $thumb    = PM::Utils->gen_thumb_url($vid);
+        my $title    = $model->fetch_vid_title($vid);
+        my @usertags = $model->fetch_usertags($vid);
+
+        push @data, {
+            vid      => $vid,
+            thumb    => $thumb,
+            title    => $title,
+            usertags => \@usertags};
+    }
+
+    my $body = $view->render_with_encode('root_login.tx', {
+        session => $env->{'psgix.session'}, data => \@data});
+
+    return [200, ['Content-Type' => 'text/html'], [$body]];
 }
 
 1;
