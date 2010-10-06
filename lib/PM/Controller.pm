@@ -12,6 +12,8 @@ use PM::Controller::Logout;
 use PM::Controller::HTTPError;
 use PM::Controller::Add;
 use PM::Controller::Add::SM;
+use PM::Controller::Tag;
+use PM::Controller::Tag::Show;
 use PM::Controller::Mytag;
 use PM::Controller::Mytag::Show;
 use PM::Controller::Delete;

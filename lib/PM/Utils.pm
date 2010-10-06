@@ -13,6 +13,18 @@ sub split_path {
     return wantarray ? @path : \@path;
 }
 
+sub gen_thumb_url {
+    my $self = shift;
+    my $vid  = shift;
+
+    if ($vid =~ /[s|n]m(\d+)/) {
+        return sprintf 'http://tn-skr2.smilevideo.jp/smile?i=%s', $1;
+
+    } else {
+        return undef;
+    }
+}
+
 1;
 __END__
 
