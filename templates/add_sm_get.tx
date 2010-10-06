@@ -32,7 +32,7 @@
     <h2>本家につけられているタグ</h2>
     <ul>
     : for $tags -> $tag {
-        <li><input type="checkbox" name="tag" value="<: $tag :>" />
+    <li><input type="checkbox" name="tag" value="<: $tag :>" id="<: $tag :>" />
             <label for="<: $tag :>"><: $tag :></label></li>
     : }
     </ul>
