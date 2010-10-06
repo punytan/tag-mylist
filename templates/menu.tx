@@ -1,0 +1,11 @@
+<div id="site">タグ式マイリスト</div>
+<div style="font-size: 0.7em; border-bottom: 1px dotted #333; margin-bottom: 5%; padding-bottom: 3%; text-align: right;">
+    <span><a href="/">トップページ</a></span>
+    <span> ｜ </span>
+    <span><a href="/add">追加</a></span>
+    <span> ｜ </span>
+    <span><a href="/tag">タグ一覧</a></span>
+    <span> ｜ </span>
+    <span><a href="/logout">ログアウト</a></span>
+</div>
+

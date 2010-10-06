@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title><: $title :>にタグを追加する - タグ式マイリスト</title>
+: include "style_global.tx"
+    <style>
+        body {width: 300px;}
+    </style>
+</head>
+
+<body>
+    
+<h1> <: $vinfo["title"] :></h1>
+
+<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+
+<h2>現在つけられているタグ</h2>
+<form action="/delete/<: $vid :>" method="POST">
+
+    <ul>
+    : if $tags.size() == 0 {
+    <li>現在ついているタグはありません</li>
+    : } else {
+    :   for $tags -> $tag {
+        <li><input type="checkbox" name="tag" value="<: $tag :>" />
+            <label for="<: $tag :>"><: $tag :></label></li>
+    :   }
+    : }
+    </ul>
+
+    <div style="text-align: center; padding-top: 3%;">
+        <input type="submit" value="選択したタグを削除する" />
+    </div>
+
+</form>
+
+: include "contact.tx"
+</body>
+
+</html>
+

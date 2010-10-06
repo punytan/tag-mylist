@@ -1,0 +1,38 @@
+<doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>タグ式マイリスト</title>
+    : include "style_global.tx"
+    <style>
+        body {width: 800px;}
+
+        div#desc {
+            margin-top: 10%;
+            font-size: 1.5em;}
+
+        div#login {
+            font-size: 1.5em;}
+    </style>
+</head>
+
+<body>
+
+<div id="site">タグ式マイリスト</div>
+
+<div id="desc">ニコ動のマイリストをタグ形式で保存する外部サイトだよ！</div>
+
+<div id="login"><a href="/login">Twitter経由でログイン</a></div>
+
+<div style="margin-top: 10%">
+<div>注意</div>
+<div>株式会社ニワンゴ、およびニコニコ動画とは一切関係ございません</div>
+</div>
+
+<div style="margin: 10%;">
+: include "contact.tx"
+</div>
+</body>
+
+</html>

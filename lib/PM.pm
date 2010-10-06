@@ -1,7 +1,12 @@
 package PM;
-use strict;
-use warnings;
+use common::sense;
 our $VERSION = '0.01';
+
+use PM::Model;
+use PM::View;
+use PM::Controller;
+
+use PM::Utils;
 
 1;
 __END__

@@ -1,0 +1,33 @@
+<doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>タグ一覧 - タグ式マイリスト</title>
+    : include "style_global.tx"
+    <style>
+        body {width: 800px;}
+    </style>
+</head>
+
+<body>
+
+: include "menu.tx"
+
+: if $tags.size() == 0 {
+<div>おや？</div>
+<div>まだタグが追加されていません。
+タグの追加は<a href="/add">こちらから</a></div>
+
+: } else {
+:   for $tags -> $tag {
+<span style="margin: 5px; font-size: 1.2em;">
+    <a href="/tag/<: $tag[0] :>"><: $tag[0] :></a></span>
+:   }
+: }
+
+: include "contact.tx"
+</body>
+
+</html>
+

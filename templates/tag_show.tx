@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>タグ一覧 - タグ式マイリスト</title>
+    : include "style_global.tx"
+    <style>
+        body {width: 800px;}
+    </style>
+</head>
+
+<body>
+
+: include "menu.tx"
+
+<h2>「<: $tag :>」タグの一覧</h2>
+
+: if $vinfo.size() == 0 {
+
+<div>おや？</div>
+<div>まだタグが追加されていません。
+タグの追加は<a href="/add">こちらから</a></div>
+
+: } else {
+
+<ul>
+
+:   for $vinfo -> $vid {
+
+<li style="padding: 5px; border-bottom: 1px dotted #333">
+
+    <img src="http://tn-skr2.smilevideo.jp/smile?i=<: $vid[1]['thumbid'] :>" style="float: left;" />
+
+    <span style="margin: 5px; font-size: 1.2em;">
+        <a href="http://www.nicovideo.jp/watch/<: $vid[0] :>" style="color: #696F6F; font-weight: bold;">
+        <: $vid[1]["title"] :></a></span>
+
+<div>
+:       for $vid[2] -> $tag {
+    <span style="margin: 5px;">
+        <a href="/tag/<: $tag :>"><: $tag :></a></span>
+:       }
+    <span style="font-size: 0.8em;">
+        [<a href="/delete/<: $vid[0] :>">タグ編集</a>]</span>
+</div>
+
+    <br style="clear: both;" />
+
+:   }
+
+</li>
+
+: }
+
+: include "contact.tx"
+</body>
+
+</html>
+
+

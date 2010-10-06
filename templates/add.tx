@@ -1,0 +1,38 @@
+<doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>動画を追加する - タグ式マイリスト</title>
+    : include "style_global.tx"
+    <style>
+        body {width: 300px;}
+    </style>
+    <script src="http://assets.linknode.net/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="site">タグ式マイリスト</div>
+
+<div>追加する動画のURL</div>
+<div><span style="color: #888888;"> (例) http://www.nicovideo.jp/watch/sm9</span></div>
+
+<div>
+<form action="#" method="POST">
+<input type="input" name="url" />
+<input type="submit" value="追加" />
+</form>
+
+</div>
+
+<div style="font-size: 0.7em; border-top: 1px dotted #333; margin-top: 5px; text-align: center; padding-top: 3%;">
+    <span><a href="/">トップページ</a></span>
+</div>
+
+: include "contact.tx"
+
+</body>
+
+</html>
+

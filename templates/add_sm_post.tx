@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title><: $title :>にタグを追加しました - タグ式マイリスト</title>
+: include "style_global.tx"
+    <style>
+        body {width: 300px;}
+    </style>
+</head>
+
+<body>
+
+<h1> <: $title :></h1>
+
+<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+
+<h2>いま追加されたタグ</h2>
+<ul>
+    : if $added.size() == 0 {
+    <li>追加されたタグはありません</li>
+    : } else {
+    :   for $added -> $tag {
+    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    :   }
+    : }
+</ul>
+
+<h2>現在つけられているタグ</h2>
+<ul>
+    : if $all_tags.size() == 0 {
+    <li>現在ついているタグはありません</li>
+    : } else {
+    :   for $all_tags -> $tag {
+    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    :   }
+    : }
+</ul>
+
+<div style="font-size: 0.7em; border-top: 1px dotted #333; margin-top: 5px; text-align: center; padding-top: 3%;">
+    <span><a href="/">トップページ</a></span>
+</div>
+
+: include "contact.tx"
+</body>
+
+</html>
+
