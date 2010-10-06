@@ -14,13 +14,40 @@
 
 : include "menu.tx"
 
-<div>こんにちは <: $session.screen_name :> さん</div>
+<div>こんにちは <: $session.screen_name :> さん。
+    <a href="/add">マイリスト登録</a>してみましょう</div>
 
-<div><a href="/add">マイリスト登録</a>してみましょう</div>
-
-<div>
+<div style="magin:3%;">
     <a href='javascript:(function(){m=location.toString().match(/http:\/\/www\.nicovideo\.jp\/watch\/(\w{2}\d+|\d+)/);if(m){location.href="http://mylist.linknode.net/add/"+m[1]}})();'>便利なブックマークレット</a> / thanks @mono0x!
 </div>
+
+<div style="font-size:1.5em;margin:3%;">みんなが登録した動画</div>
+
+<ul>
+: for $random.keys() -> $vid {
+
+<li style="padding: 5px; border-bottom: 1px dotted #333">
+
+    <img src="http://tn-skr2.smilevideo.jp/smile?i=<: $random[$vid]['thumbid'] :>" style="float: left;" />
+
+    <span style="margin: 5px; font-size: 1.2em;">
+        <a href="http://www.nicovideo.jp/watch/<: $vid :>" style="color: #696F6F; font-weight: bold;">
+        <: $random[$vid]["title"] :></a></span>
+
+<div>
+:       for $random[$vid]["tags"] -> $tag {
+    <span style="margin: 5px;">
+        <a href="/tag/<: $tag :>"><: $tag :></a></span>
+:       }
+</div>
+
+    <br style="clear: both;" />
+
+:   }
+
+</li>
+
+</ul>
 
 : include "contact.tx"
 </body>
