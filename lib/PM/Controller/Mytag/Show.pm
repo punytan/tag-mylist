@@ -1,10 +1,10 @@
-package PM::Controller::Tag::Show;
+package PM::Controller::Mytag::Show;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller::Tag';
+use parent 'PM::Controller::Mytag';
 
-use PM::Model::Tag;
-use PM::Model::Tag::Show;
+use PM::Model::Mytag;
+use PM::Model::Mytag::Show;
 use PM::Model::Add::SM;
 use YAML;
 
@@ -19,7 +19,7 @@ sub get {
         return PM::Controller::HTTPError->code_301('/');
     }
 
-    my $vids = PM::Model::Tag::Show->fetch_vid(
+    my $vids = PM::Model::Mytag::Show->fetch_vid(
         $env->{'psgix.session'}{id}, $tag);
 
     my @vinfo;
@@ -28,14 +28,14 @@ sub get {
         if ($vid->[0] =~ /[s|n]m(\d+)/) {
             $info->{thumbid} = $1;
         }
-        my @tags = PM::Model::Tag::Show->fetch_tags_of($vid->[0],
+        my @tags = PM::Model::Mytag::Show->fetch_tags_of($vid->[0],
             $env->{'psgix.session'}{id});
 
         push @vinfo, [$vid->[0], $info, \@tags];
     }
 
 
-    my $body = $view->render_with_encode('tag_show.tx', {
+    my $body = $view->render_with_encode('mytag_show.tx', {
         vinfo => \@vinfo, tag => $tag});
 
     return [200, ['Content-Type' => 'text/html'], [$body]];

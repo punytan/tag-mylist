@@ -22,7 +22,7 @@
 : } else {
 :   for $tags -> $tag {
 <span style="margin: 5px; font-size: 1.2em;">
-    <a href="/tag/<: $tag[0] :>"><: $tag[0] :></a></span>
+    <a href="/mytag/<: $tag[0] :>"><: $tag[0] :></a></span>
 :   }
 : }
 

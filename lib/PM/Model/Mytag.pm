@@ -1,4 +1,4 @@
-package PM::Model::Tag;
+package PM::Model::Mytag;
 use common::sense;
 our $VERSION = '0.01';
 use parent 'PM::Model';

@@ -22,7 +22,7 @@
 <li>いま削除されたタグはありません</li>
 : } else {
 :   for $deleted -> $tag {
-    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    <li><a href="/mytag/<: $tag :>"><: $tag :></a></li>
 :   }
 : }
 </ul>
@@ -34,7 +34,7 @@
 <li>現在ついているタグはありません</li>
 : } else {
 :   for $tags -> $tag {
-    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    <li><a href="/mytag/<: $tag :>"><: $tag :></a></li>
 :   }
 : }
 </ul>

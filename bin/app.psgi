@@ -34,13 +34,13 @@ sub router {
     if (not defined $dest[0]) {
         return $c->dispatch('Root', $env);
 
-    } elsif ($dest[0] eq 'tag') {
+    } elsif ($dest[0] eq 'mytag') {
 
         if (not defined $dest[1]) {
-            return $c->dispatch('Tag', $env);
+            return $c->dispatch('Mytag', $env);
 
         } else {
-            return $c->dispatch('Tag::Show', $env, $dest[1]);
+            return $c->dispatch('Mytag::Show', $env, $dest[1]);
         }
 
     } elsif ($dest[0] eq 'add') {

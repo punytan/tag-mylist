@@ -22,7 +22,7 @@
     <li>追加されたタグはありません</li>
     : } else {
     :   for $added -> $tag {
-    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    <li><a href="/mytag/<: $tag :>"><: $tag :></a></li>
     :   }
     : }
 </ul>
@@ -33,7 +33,7 @@
     <li>現在ついているタグはありません</li>
     : } else {
     :   for $all_tags -> $tag {
-    <li><a href="/tag/<: $tag :>"><: $tag :></a></li>
+    <li><a href="/mytag/<: $tag :>"><: $tag :></a></li>
     :   }
     : }
 </ul>

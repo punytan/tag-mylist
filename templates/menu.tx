@@ -4,7 +4,7 @@
     <span> ｜ </span>
     <span><a href="/add">追加</a></span>
     <span> ｜ </span>
-    <span><a href="/tag">タグ一覧</a></span>
+    <span><a href="/mytag">登録タグ一覧</a></span>
     <span> ｜ </span>
     <span><a href="/logout">ログアウト</a></span>
 </div>

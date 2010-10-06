@@ -39,7 +39,7 @@
 <div>
 :       for $vid[2] -> $tag {
     <span style="margin: 5px;">
-        <a href="/tag/<: $tag :>"><: $tag :></a></span>
+        <a href="/mytag/<: $tag :>"><: $tag :></a></span>
 :       }
     <span style="font-size: 0.8em;">
         [<a href="/delete/<: $vid[0] :>">タグ編集</a>]</span>

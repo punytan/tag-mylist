@@ -1,7 +1,7 @@
-package PM::Model::Tag::Show;
+package PM::Model::Mytag::Show;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Model::Tag';
+use parent 'PM::Model::Mytag';
 
 my $model = PM::Model->new;
 

@@ -37,7 +37,7 @@
 <div>
 :       for $random[$vid]["tags"] -> $tag {
     <span style="margin: 5px;">
-        <a href="/tag/<: $tag :>"><: $tag :></a></span>
+        <a href="/mytag/<: $tag :>"><: $tag :></a></span>
 :       }
 </div>
 

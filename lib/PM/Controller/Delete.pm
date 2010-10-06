@@ -1,7 +1,7 @@
 package PM::Controller::Delete;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller::Tag';
+use parent 'PM::Controller::Mytag';
 
 use PM::Model::Delete;
 
