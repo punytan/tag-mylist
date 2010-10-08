@@ -16,14 +16,15 @@ sub get {
         return PM::Controller::HTTPError->code_301('/');
     }
 
+    my $thumb = PM::Utils->gen_thumb_url($sm);
     my $vinfo = PM::Model::Delete->fetch_video_info($sm);
-    my $tags = PM::Model::Delete->exists($sm, $env->{'psgix.session'}{id});
-    $sm =~ /[s|n]m(\d+)/;
-    my $vid = $1;
+    my $tags  = PM::Model::Delete->exists($sm, $env->{'psgix.session'}{id});
 
     my $body = $view->render_with_encode('delete_get.tx', {
-        vinfo => $vinfo, tags => $tags,
-        vid => $sm, vid_num => $vid});
+        vinfo => $vinfo,
+        tags  => $tags,
+        vid   => $sm,
+        thumb => $thumb});
 
     return [200, [], [$body]];
 }
@@ -48,15 +49,17 @@ sub post {
             }
         }
 
+        my $title = $thumb->{title};
+        my $thumb = PM::Utils->gen_thumb_url($sm);
         my $exist_tags = PM::Model::Delete->exists(
             $sm, $env->{'psgix.session'}{id});
 
-        my $title = $thumb->{title};
-
-        $sm =~ /(\d+)/;
         my $body = $view->render_with_encode('delete_post.tx', {
-            vid => $sm, vid_num => $1, deleted => \@deleted,
-            tags => $exist_tags, title => $title});
+            vid   => $sm,
+            thumb => $thumb,
+            tags  => $exist_tags,
+            title => $title,
+            deleted => \@deleted});
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 

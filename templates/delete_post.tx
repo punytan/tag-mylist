@@ -14,7 +14,7 @@
 
 <h1> <: $title :></h1>
 
-<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+<img src="<: $thumb :>" class="thumbnail" />
 
 <h2>いま削除されたタグ</h2>
 <ul>

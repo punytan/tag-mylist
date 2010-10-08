@@ -14,7 +14,7 @@
     
 <h1> <: $vinfo["title"] :></h1>
 
-<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+<img src="<: $thumb :>" class="thumbnail" />
 
 <h2>現在つけられているタグ</h2>
 <form action="/delete/<: $vid :>" method="POST">
