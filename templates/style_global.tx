@@ -1,41 +1,41 @@
-<style>
-* {
-    font-size: 1em;
-    margin: 0px;
-    padding: 0px;}
+    <style>
+    * {
+        font-size: 1em;
+        margin: 0px;
+        padding: 0px;}
 
-body {
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;}
+    body {
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;}
 
-a {
-    color: #2276BB;
-    text-decoration: none;}
+    a {
+        color: #2276BB;
+        text-decoration: none;}
 
-ul {
-    padding-left: 15px;
-    list-style-type: none;}
+    ul {
+        padding-left: 15px;
+        list-style-type: none;}
 
-input {
-    margin: 3px;}
+    input {
+        margin: 3px;}
 
-img.thumbnail {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    border: none;}
+    img.thumbnail {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        border: none;}
 
-h1 {
-    margin: 5px;
-    font-size: 1.3em;}
+    h1 {
+        margin: 5px;
+        font-size: 1.3em;}
 
-h2 {
-    margin: 5px;}
+    h2 {
+        margin: 5px;}
 
-div#site {
-    margin-top: 10%;
-    font-size: 2em;}
+    div#site {
+        margin-top: 10%;
+        font-size: 2em;}
 
-</style>
+    </style>
