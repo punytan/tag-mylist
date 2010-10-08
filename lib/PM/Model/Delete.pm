@@ -32,7 +32,7 @@ sub delete {
     try {
         my $sth = $model->dbh->prepare(q{
             DELETE FROM usertags
-                WHERE (uid = ?)
+                  WHERE (uid = ?)
                     AND (vid = ?)
                     AND (tag = ?)
         });
