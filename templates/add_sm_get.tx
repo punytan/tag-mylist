@@ -14,7 +14,7 @@
 
 <h1> <: $title :></h1>
 
-<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+<img src="<: $thumb :>" class="thumbnail" />
 
 <h2>現在つけられているタグ</h2>
 <form action="/add/<: $vid :>" method="POST">
@@ -38,10 +38,10 @@
     </ul>
     <h2>独自のタグを追加する</h2>
     <ul>
-        <li><input type="input" name="tag" size="15"></li>
-        <li><input type="input" name="tag" size="15"></li>
-        <li><input type="input" name="tag" size="15"></li>
-        <li><input type="input" name="tag" size="15"></li>
+        <li><input type="text" name="tag" size="15" /></li>
+        <li><input type="text" name="tag" size="15" /></li>
+        <li><input type="text" name="tag" size="15" /></li>
+        <li><input type="text" name="tag" size="15" /></li>
     </ul>
 
     <div style="text-align: center; padding-top: 3%;">

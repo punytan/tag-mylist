@@ -16,17 +16,22 @@ sub get {
     }
 
     if (my $thumbinfo = PM::Model::Add::SM->fetch_video_info($sm)) {
-        my $exist_tags = PM::Model::Add::SM->exists($sm, $env->{'psgix.session'}{id});
+
+        my $exist_tags = PM::Model::Add::SM->exists(
+            $sm, $env->{'psgix.session'}{id});
 
         my $title = $thumbinfo->{title};
         my $tags  = $thumbinfo->{tags};
+        my $thumb = PM::Utils->gen_thumb_url($sm);
 
         my @without_duplication = $self->throw_duplication($exist_tags, $tags);
 
-        $sm =~ /(\d+)/;
         my $body = $view->render_with_encode('add_sm_get.tx', {
-            title => $title, tags => \@without_duplication,
-            vid => $sm, vid_num => $1, exist_tags => $exist_tags});
+            vid   => $sm,
+            title => $title,
+            thumb => $thumb,
+            tags  => \@without_duplication,
+            exist_tags => $exist_tags});
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 
@@ -72,22 +77,27 @@ sub post {
     my $req = Plack::Request->new($env);
 
     if (my $thumbinfo = PM::Model::Add::SM->fetch_video_info($sm)) {
+
         my @added;
         for my $tag ($req->param('tag')) {
             if (length $tag > 0) {
-                PM::Model::Add::SM->add($sm, $env->{'psgix.session'}{id}, $tag);
+                PM::Model::Add::SM->add(
+                    $sm, $env->{'psgix.session'}{id}, $tag);
                 push @added, $tag;
             }
         }
 
-        my $exist_tags = PM::Model::Add::SM->exists($sm, $env->{'psgix.session'}{id});
-
         my $title = $thumbinfo->{title};
+        my $thumb = PM::Utils->gen_thumb_url($sm);
+        my $exist_tags = PM::Model::Add::SM->exists(
+            $sm, $env->{'psgix.session'}{id});
 
-        $sm =~ /(\d+)/;
         my $body = $view->render_with_encode('add_sm_post.tx', {
-            vid => $sm, vid_num => $1, added => \@added,
-            all_tags => $exist_tags, title => $title});
+            vid   => $sm,
+            thumb => $thumb,
+            title => $title,
+            added => \@added,
+            all_tags => $exist_tags});
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 

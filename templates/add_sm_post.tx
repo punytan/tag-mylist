@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title><: $title :>にタグを追加しました - タグ式マイリスト</title>
-: include "style_global.tx"
+    : include "style_global.tx"
     <style>
         body {width: 300px;}
     </style>
@@ -14,7 +14,7 @@
 
 <h1> <: $title :></h1>
 
-<img src="http://tn-skr4.smilevideo.jp/smile?i=<: $vid_num :>" class="thumbnail" />
+<img src="<: $thumb :>" class="thumbnail" />
 
 <h2>いま追加されたタグ</h2>
 <ul>
@@ -43,6 +43,7 @@
 </div>
 
 : include "contact.tx"
+
 </body>
 
 </html>
