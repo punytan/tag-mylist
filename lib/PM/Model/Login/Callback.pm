@@ -7,6 +7,8 @@ use Try::Tiny;
 use PM::Model::Login;
 use OAuth::Lite::Consumer;
 
+my $model = PM::Model->new;
+
 sub fetch_verify_credentials {
     my $self = shift;
     my $env  = shift;
@@ -42,24 +44,19 @@ sub create_user {
     my $self = shift;
     my $credentials = shift;
 
-    my $fieldvals = {
-        uid => $credentials->{id},
-        created_at => time,
-    };
-
     my $result = 1;
     try {
-        my $model = PM::Model->new;
-        my ($st, @bind) = $model->sql->insert('users', $fieldvals);
-
-        my $sth = $model->dbh->prepare($st);
-        $sth->execute(@bind);
+        my $sth = $model->dbh->prepare(q{
+            INSERT INTO users (uid, created_at)
+                 VALUES (?, ?)
+        });
+        $sth->execute($credentials->{id}, time);
 
     } catch {
-        unless (/^DBD::mysql::st execute failed: Duplicate entry '\d+' for key 'PRIMARY'/) {
+        unless (/Duplicate entry/) {
+            warn $_;
             $result = 0;
         }
-
     };
 
     return $result;
