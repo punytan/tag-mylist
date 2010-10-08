@@ -18,7 +18,7 @@ sub gen_thumb_url {
     my $vid  = shift;
 
     if ($vid =~ /[s|n]m(\d+)/) {
-        return sprintf 'http://tn-skr2.smilevideo.jp/smile?i=%s', $1;
+        return "http://tn-skr2.smilevideo.jp/smile?i=$1";
 
     } else {
         return undef;
