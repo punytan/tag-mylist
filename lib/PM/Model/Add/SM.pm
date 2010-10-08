@@ -28,7 +28,9 @@ sub add {
 
     try {
         my $sth = $model->dbh->prepare(q{
-            INSERT INTO usertags (uid, vid, tag, md5) VALUES (?, ?, ?, ?)});
+            INSERT INTO usertags (uid, vid, tag, md5)
+                 VALUES (?, ?, ?, ?)
+        });
         $sth->execute($uid, $sm, $tag, $hash);
 
     } catch {
@@ -44,7 +46,11 @@ sub exists {
     my $uid  = shift;
 
     my $sth = $model->dbh->prepare(q{
-        SELECT tag FROM usertags where (uid = ?) AND (vid = ?)});
+        SELECT tag
+          FROM usertags
+         WHERE (uid = ?)
+           AND (vid = ?)
+    });
     $sth->execute($uid, $sm);
 
     my @tags;
@@ -79,7 +85,9 @@ sub to_db {
 
     try {
         my $sth = $model->dbh->prepare(q{
-            INSERT INTO vinfo (vid, title) values(?, ?)});
+            INSERT INTO vinfo (vid, title)
+                 VALUES (?, ?)
+        });
         $sth->execute($sm, $thumbinfo->{title});
 
     } catch {
