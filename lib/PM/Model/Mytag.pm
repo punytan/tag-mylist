@@ -10,7 +10,10 @@ sub fetch_mytags {
     my $uid  = shift;
 
     my $sth = $model->dbh->prepare(q{
-        SELECT DISTINCT (tag) FROM usertags WHERE uid = ?});
+        SELECT DISTINCT (tag)
+                   FROM usertags
+                  WHERE uid = ?
+    });
     $sth->execute($uid);
 
     my $tags = $sth->fetchall_arrayref;

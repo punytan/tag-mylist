@@ -11,7 +11,11 @@ sub fetch_vid {
     my $tag  = shift;
 
     my $sth = $model->dbh->prepare(q{
-        SELECT vid FROM usertags WHERE (uid = ?) AND (tag = ?)});
+        SELECT vid
+          FROM usertags
+         WHERE (uid = ?)
+           AND (tag = ?)
+    });
     $sth->execute($uid, $tag);
 
     my $vids = $sth->fetchall_arrayref;
@@ -25,7 +29,11 @@ sub fetch_tags_of {
     my $uid  = shift;
 
     my $sth = $model->dbh->prepare(q{
-        SELECT tag FROM usertags WHERE (uid = ?) AND (vid = ?)});
+        SELECT tag
+          FROM usertags
+         WHERE (uid = ?)
+           AND (vid = ?)
+    });
     $sth->execute($uid, $vid);
 
     my $result = $sth->fetchall_arrayref;
