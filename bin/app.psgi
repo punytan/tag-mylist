@@ -96,7 +96,9 @@ sub router {
 
     } elsif ($dest[0] eq 'favicon.ico') {
         my $file = PM::View->slurp('static/favicon.ico');
-        return [200, ['Content-Type' => 'image/x-icon'], [$file]];
+
+        return [200, ['Content-Type' => 'image/x-icon',
+                'Expires' => 'Wed Sep  6 08:49:37 2011'],[$file]];
 
     } else {
         return PM::Controller::HTTPError->throw(404);
