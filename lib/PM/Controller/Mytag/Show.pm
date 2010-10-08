@@ -24,14 +24,19 @@ sub get {
 
     my @vinfo;
     for my $vid (@$vids) {
-        my $info = PM::Model::Add::SM->fetch_video_info($vid->[0]);
-        if ($vid->[0] =~ /[s|n]m(\d+)/) {
-            $info->{thumbid} = $1;
-        }
-        my @tags = PM::Model::Mytag::Show->fetch_tags_of($vid->[0],
-            $env->{'psgix.session'}{id});
+        my $sm = $vid->[0];
 
-        push @vinfo, [$vid->[0], $info, \@tags];
+        my $thumb = PM::Utils->gen_thumb_url($sm);
+        my $info  = PM::Model::Add::SM->fetch_video_info($sm);
+        my @tags  = PM::Model::Mytag::Show->fetch_tags_of(
+            $sm, $env->{'psgix.session'}{id});
+
+        push @vinfo, {
+            vid   => $sm,
+            title => $info->{title},
+            thumb => $thumb,
+            vinfo => $info,
+            tags  => \@tags};
     }
 
 

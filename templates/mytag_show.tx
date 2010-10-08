@@ -26,23 +26,23 @@
 
 <ul>
 
-:   for $vinfo -> $vid {
+:   for $vinfo -> $item {
 
 <li style="padding: 5px; border-bottom: 1px dotted #333">
 
-    <img src="http://tn-skr2.smilevideo.jp/smile?i=<: $vid[1]['thumbid'] :>" style="float: left;" />
+    <img src="<: $item.thumb :>" style="float: left;" />
 
     <span style="margin: 5px; font-size: 1.2em;">
-        <a href="http://www.nicovideo.jp/watch/<: $vid[0] :>" style="color: #696F6F; font-weight: bold;">
-        <: $vid[1]["title"] :></a></span>
+        <a href="http://www.nicovideo.jp/watch/<: $item.vid :>" style="color: #696F6F; font-weight: bold;">
+        <: $item.title :></a></span>
 
 <div>
-:       for $vid[2] -> $tag {
+:       for $item.tags -> $tag {
     <span style="margin: 5px;">
         <a href="/mytag/<: $tag :>"><: $tag :></a></span>
 :       }
     <span style="font-size: 0.8em;">
-        [<a href="/delete/<: $vid[0] :>">タグ編集</a>]</span>
+        [<a href="/delete/<: $item.vid :>">タグ編集</a>]</span>
 </div>
 
     <br style="clear: both;" />
