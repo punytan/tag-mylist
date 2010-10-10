@@ -10,6 +10,7 @@ use JSON::XS;
 use XML::Simple;
 use LWP::UserAgent;
 use Try::Tiny;
+use Unicode::Normalize qw/NFKC/;
 
 use PM::Model::Cache;
 
@@ -143,6 +144,10 @@ sub from_api {
                 }
             }
         }
+    }
+
+    for (@tags) {
+        $_ = NFKC $_;
     }
 
     my $thumbinfo = {
