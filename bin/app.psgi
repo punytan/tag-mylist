@@ -17,7 +17,7 @@ builder {
             key_prefix => 'PM:Session:',
         ),
         state => Plack::Session::State::Cookie->new(
-            expires => 1 * 60 * 24 * 7,
+            expires => 1 * 60 * 60 * 24 * 14,
             domain  => 'mylist.linknode.net',
             session_key => 'user_session',
         );
