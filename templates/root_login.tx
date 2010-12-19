@@ -17,7 +17,7 @@
 <div>こんにちは <: $session.screen_name :> さん。
     <a href="/add">マイリスト登録</a>してみましょう</div>
 
-<div style="magin:3%;">
+<div style="margin:3%;">
     <a href='javascript:(function(){m=location.toString().match(/http:\/\/www\.nicovideo\.jp\/watch\/(\w{2}\d+|\d+)/);if(m){location.href="http://mylist.linknode.net/add/"+m[1]}})();'>便利なブックマークレット</a> ニコ動のページ上で実行してください / thanks @mono0x!
 </div>
 
