@@ -1,24 +1,20 @@
 package PM::Controller::Add::SM;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller::Add';
+use parent 'Lanky::Handler';
 
 use PM::Model::Add::SM;
-my $view = PM::View->new;
 
 sub get {
     my $self = shift;
-    my $env  = shift;
     my $sm   = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
+    unless (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
     }
 
-    if (my $thumbinfo = PM::Model::Add::SM->fetch_video_info($sm)) {
-
-        my $exist_tags = PM::Model::Add::SM->exists(
-            $sm, $env->{'psgix.session'}{id});
+    if (my $thumbinfo = PM::Model::Add::SM->fetch_video_info($sm)) { 
+        my $exist_tags = PM::Model::Add::SM->exists($sm, $self->request->env->{'psgix.session'}{id});
 
         my $title = $thumbinfo->{title};
         my $tags  = $thumbinfo->{tags};
@@ -26,20 +22,19 @@ sub get {
 
         my @without_duplication = $self->throw_duplication($exist_tags, $tags);
 
-        my $body = $view->render_with_encode('add_sm_get.tx', {
+        my $body = $self->render('add_sm_get.tx', {
             vid   => $sm,
             title => $title,
             thumb => $thumb,
             tags  => \@without_duplication,
-            exist_tags => $exist_tags});
+            exist_tags => $exist_tags
+        });
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 
     } else {
         return PM::Controller::HTTPError->throw(404);
-
     }
-
 }
 
 sub throw_duplication {
@@ -67,37 +62,32 @@ sub throw_duplication {
 
 sub post {
     my $self = shift;
-    my $env  = shift;
     my $sm   = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
+    unless (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
     }
 
-    my $req = Plack::Request->new($env);
-
     if (my $thumbinfo = PM::Model::Add::SM->fetch_video_info($sm)) {
-
         my @added;
-        for my $tag ($req->param('tag')) {
+        for my $tag ($self->request->param('tag')) {
             if (length $tag > 0) {
-                PM::Model::Add::SM->add(
-                    $sm, $env->{'psgix.session'}{id}, $tag);
+                PM::Model::Add::SM->add($sm, $self->request->env->{'psgix.session'}{id}, $tag);
                 push @added, $tag;
             }
         }
 
         my $title = $thumbinfo->{title};
         my $thumb = PM::Utils->gen_thumb_url($sm);
-        my $exist_tags = PM::Model::Add::SM->exists(
-            $sm, $env->{'psgix.session'}{id});
+        my $exist_tags = PM::Model::Add::SM->exists($sm, $self->request->env->{'psgix.session'}{id});
 
-        my $body = $view->render_with_encode('add_sm_post.tx', {
+        my $body = $self->render('add_sm_post.tx', {
             vid   => $sm,
             thumb => $thumb,
             title => $title,
             added => \@added,
-            all_tags => $exist_tags});
+            all_tags => $exist_tags,
+        });
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 

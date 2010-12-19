@@ -6,21 +6,17 @@ use parent 'PM::Controller::Mytag';
 use PM::Model::Mytag;
 use PM::Model::Mytag::Show;
 use PM::Model::Add::SM;
-use YAML;
-
-my $view = PM::View->new;
 
 sub get {
     my $self = shift;
-    my $env  = shift;
     my $tag  = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
+    unless (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
     }
 
     my $vids = PM::Model::Mytag::Show->fetch_vid(
-        $env->{'psgix.session'}{id}, $tag);
+        $self->request->env->{'psgix.session'}{id}, $tag);
 
     my @vinfo;
     for my $vid (@$vids) {
@@ -29,19 +25,19 @@ sub get {
         my $thumb = PM::Utils->gen_thumb_url($sm);
         my $info  = PM::Model::Add::SM->fetch_video_info($sm);
         my @tags  = PM::Model::Mytag::Show->fetch_tags_of(
-            $sm, $env->{'psgix.session'}{id});
+            $sm, $self->request->env->{'psgix.session'}{id});
 
-        push @vinfo, {
+        push @vinfo, +{
             vid   => $sm,
             title => $info->{title},
             thumb => $thumb,
             vinfo => $info,
-            tags  => \@tags};
+            tags  => \@tags
+        };
     }
 
 
-    my $body = $view->render_with_encode('mytag_show.tx', {
-        vinfo => \@vinfo, tag => $tag});
+    my $body = $self->render('mytag_show.tx', {vinfo => \@vinfo, tag => $tag});
 
     return [200, ['Content-Type' => 'text/html'], [$body]];
 }

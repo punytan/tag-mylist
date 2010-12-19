@@ -1,7 +1,7 @@
 package PM::Controller::Login;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller';
+use parent 'Lanky::Handler';
 
 use URI;
 use OAuth::Lite::Consumer;
@@ -9,11 +9,9 @@ use PM::Model::Login;
 
 sub get {
     my $self = shift;
-    my $env  = shift;
 
-    if (PM::Model::Session->is_login($env)) {
+    if (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
-
     } else {
         my $uri = $self->generate_redirect_uri;
         return PM::Controller::HTTPError->code_301($uri);
@@ -29,8 +27,7 @@ sub generate_redirect_uri {
     my $req_token = $c->get_request_token;
 
     my $uri = URI->new($c->{authorize_path});
-    $uri->query(
-        $c->gen_auth_query("GET", $c->{site}, $req_token));
+    $uri->query($c->gen_auth_query("GET", $c->{site}, $req_token));
 
     return $uri->as_string
 }

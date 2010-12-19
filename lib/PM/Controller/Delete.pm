@@ -1,65 +1,60 @@
 package PM::Controller::Delete;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller::Mytag';
+use parent 'Lanky::Handler';
 
 use PM::Model::Delete;
 
-my $view = PM::View->new;
-
 sub get {
     my $self = shift;
-    my $env  = shift;
     my $sm   = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
+    unless (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
     }
 
     my $thumb = PM::Utils->gen_thumb_url($sm);
     my $vinfo = PM::Model::Delete->fetch_video_info($sm);
-    my $tags  = PM::Model::Delete->exists($sm, $env->{'psgix.session'}{id});
+    my $tags  = PM::Model::Delete->exists($sm, $self->request->env->{'psgix.session'}{id});
 
-    my $body = $view->render_with_encode('delete_get.tx', {
+    my $body = $self->render('delete_get.tx', {
         vinfo => $vinfo,
         tags  => $tags,
         vid   => $sm,
-        thumb => $thumb});
+        thumb => $thumb,
+    });
 
     return [200, [], [$body]];
 }
 
 sub post {
     my $self = shift;
-    my $env  = shift;
     my $sm   = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
+    unless (PM::Model::Session->is_login($self)) {
         return PM::Controller::HTTPError->code_301('/');
     }
 
-    my $req = Plack::Request->new($env);
     if (my $thumb = PM::Model::Delete->fetch_video_info($sm)) {
         my @deleted;
-        for my $tag ($req->param('tag')) {
+        for my $tag ($self->request->param('tag')) {
             if (length $tag > 0) {
-                PM::Model::Delete->delete(
-                    $sm, $env->{'psgix.session'}{id}, $tag);
+                PM::Model::Delete->delete($sm, $self->request->env->{'psgix.session'}{id}, $tag);
                 push @deleted, $tag;
             }
         }
 
         my $title = $thumb->{title};
         my $thumb = PM::Utils->gen_thumb_url($sm);
-        my $exist_tags = PM::Model::Delete->exists(
-            $sm, $env->{'psgix.session'}{id});
+        my $exist_tags = PM::Model::Delete->exists($sm, $self->request->env->{'psgix.session'}{id});
 
-        my $body = $view->render_with_encode('delete_post.tx', {
+        my $body = $self->render('delete_post.tx', {
             vid   => $sm,
             thumb => $thumb,
             tags  => $exist_tags,
             title => $title,
-            deleted => \@deleted});
+            deleted => \@deleted,
+        });
 
         return [200, ['Content-Type' => 'text/html'], [$body]];
 

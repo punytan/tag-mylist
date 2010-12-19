@@ -1,12 +1,34 @@
 use common::sense;
 use lib 'lib';
+use File::Spec;
 
 use PM;
 use PM::Plack;
+use Lanky;
 
 use Plack::Builder;
 
-my $c = PM::Controller->new;
+my $lanky = Lanky->new(
+    application => [
+        '/'           => 'PM::Controller::Root',
+        '/tag'        => 'PM::Controller::Tag',
+        '/tag/(.+)'   => 'PM::Controller::Tag::Show',
+        '/mytag'      => 'PM::Controller::Mytag',
+        '/mytag/(.+)' => 'PM::Controller::Mytag::Show',
+        '/add'        => 'PM::Controller::Add',
+        '/add/([s|n]m\d+)'    => 'PM::Controller::Add::SM',
+        '/delete/([s|n]m\d+)' => 'PM::Controller::Delete',
+        '/logout'     => 'PM::Controller::Logout',
+        '/login'      => 'PM::Controller::Login',
+        '/login/callback' => 'PM::Controller::Login::Callback',
+    ],
+    template => [
+        path => ['templates'],
+        cache_dir => File::Spec->tmpdir,
+    ],
+    errordoc_path => 'errordoc',
+    render_encoding => 'utf8',
+);
 
 builder {
     enable 'Lint';
@@ -22,90 +44,9 @@ builder {
             session_key => 'user_session',
         );
 
-    \&router;
+    $lanky->to_app;
 
 };
-
-sub router {
-    my $env = shift;
-
-    my @dest = PM::Utils->split_path($env);
-
-    if (not defined $dest[0]) {
-        return $c->dispatch('Root', $env);
-
-    } elsif ($dest[0] eq 'tag') {
-
-        if (not defined $dest[1]) {
-            return $c->dispatch('Tag', $env);
-
-        } else {
-            return $c->dispatch('Tag::Show', $env, $dest[1]);
-        }
-
-    } elsif ($dest[0] eq 'mytag') {
-
-        if (not defined $dest[1]) {
-            return $c->dispatch('Mytag', $env);
-
-        } else {
-            return $c->dispatch('Mytag::Show', $env, $dest[1]);
-        }
-
-    } elsif ($dest[0] eq 'add') {
-
-        if (not defined $dest[1]) {
-            return $c->dispatch('Add', $env);
-
-        } elsif ($dest[1] =~ /^([s|n]m\d+)$/) {
-            return $c->dispatch('Add::SM', $env, $1);
-
-        } else {
-            return PM::Controller::HTTPError->throw(500);
-
-        }
-
-    } elsif ($dest[0] eq 'delete') {
-
-        if (not defined $dest[1]) {
-            return PM::Controller::HTTPError->code_301('/');
-
-        } elsif ($dest[1] =~ /^([s|n]m\d+)$/) {
-            return $c->dispatch('Delete', $env, $1);
-
-        } else {
-            return PM::Controller::HTTPError->throw(500);
-
-        }
-
-    } elsif ($dest[0] eq 'login') {
-
-        if (not defined $dest[1]) {
-            return $c->dispatch('Login', $env);
-
-        } elsif ($dest[1] eq 'callback') {
-            return $c->dispatch('Login::Callback', $env);
-
-        } else {
-            return PM::Controller::HTTPError->throw(404);
-
-        }
-
-    } elsif ($dest[0] eq 'logout') {
-        return $c->dispatch('Logout', $env);
-
-    } elsif ($dest[0] eq 'favicon.ico') {
-        my $file = PM::View->slurp('static/favicon.ico');
-
-        return [200, ['Content-Type' => 'image/x-icon',
-                'Expires' => 'Wed Sep  6 08:49:37 2011'],[$file]];
-
-    } else {
-        return PM::Controller::HTTPError->throw(404);
-    }
-
-    return PM::Controller::HTTPError->throw(404);
-}
 
 __END__
 

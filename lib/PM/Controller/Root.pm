@@ -1,23 +1,23 @@
 package PM::Controller::Root;
 use common::sense;
 our $VERSION = '0.01';
-use parent 'PM::Controller';
+use parent 'Lanky::Handler';
 
 use PM::Model::Root;
 use PM::Model::Session;
 
-my $view  = PM::View->new;
 my $model = PM::Model::Root->new;
 
 sub get {
     my $self = shift;
-    my $env  = shift;
 
-    unless (PM::Model::Session->is_login($env)) {
-        my $body = $view->render_with_encode(
-            'root_not_login.tx', {});
+    unless (PM::Model::Session->is_login($self)) {
+        my $body = $self->render('root_not_login.tx', {});
 
-        return [200, ['Content-Type' => 'text/html'], [$body]];
+        my $res = $self->request->new_response(200);
+        $res->content_type('text/html');
+        $res->body($body);
+        return $res->finalize;
     }
 
     my @vids = $model->fetch_random_vid;
@@ -29,17 +29,21 @@ sub get {
         my $title    = $model->fetch_vid_title($vid);
         my @usertags = $model->fetch_usertags($vid);
 
-        push @data, {
+        push @data, +{
             vid      => $vid,
             thumb    => $thumb,
             title    => $title,
-            usertags => \@usertags};
+            usertags => \@usertags
+        };
     }
 
-    my $body = $view->render_with_encode('root_login.tx', {
-        session => $env->{'psgix.session'}, data => \@data});
+    my $body = $self->render('root_login.tx', {
+        session => $self->request->env->{'psgix.session'}, data => \@data});
 
-    return [200, ['Content-Type' => 'text/html'], [$body]];
+    my $res = $self->request->new_response(200);
+    $res->content_type('text/html');
+    $res->body($body);
+    return $res->finalize;
 }
 
 1;

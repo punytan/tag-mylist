@@ -44,7 +44,7 @@ test_psgi $app, sub {
 test_psgi $app, sub {
     my $cb  = shift;
     my $res = $cb->(GET '/delete');
-    is $res->code, 301;
+    is $res->code, 404;
 };
 
 test_psgi $app, sub {
