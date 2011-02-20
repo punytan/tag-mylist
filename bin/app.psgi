@@ -1,4 +1,4 @@
-use common::sense;
+use practical;
 use lib 'lib';
 use File::Spec;
 
