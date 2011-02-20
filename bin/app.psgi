@@ -28,7 +28,7 @@ my $lanky = Lanky->new(
     ],
     errordoc_path => 'errordoc',
     render_encoding => 'utf8',
-);
+)->to_app;
 
 builder {
     enable 'Lint';
@@ -44,7 +44,7 @@ builder {
             session_key => 'user_session',
         );
 
-    $lanky->to_app;
+    $lanky;
 
 };
 
