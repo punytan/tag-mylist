@@ -25,6 +25,7 @@ sub get {
         return PM::Controller::HTTPError->throw(500);
     }
 
+    $self->request->env->{'psgix.session.options'}->{change_id} = 1;
     $self->request->env->{'psgix.session'} = $credentials;
 
     return PM::Controller::HTTPError->code_301('/');
